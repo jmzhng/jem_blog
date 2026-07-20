@@ -5,6 +5,7 @@ Usage: python3 build.py
 """
 
 import re
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -154,6 +155,22 @@ def update_index(posts):
     INDEX_FILE.write_text(text)
 
 
+def push_to_origin():
+    status = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True, check=True
+    ).stdout
+    if not status.strip():
+        print("nothing to commit")
+        return
+
+    subprocess.run(["git", "add", "-A"], cwd=ROOT, check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "Update posts"], cwd=ROOT, check=True
+    )
+    subprocess.run(["git", "push", "origin"], cwd=ROOT, check=True)
+    print("pushed to origin")
+
+
 def main():
     md_files = sorted(POSTS_DIR.glob("*.md"))
     posts = [build_post(f) for f in md_files]
@@ -168,6 +185,8 @@ def main():
     for p in posts:
         print(f"built {p['slug']}/index.html")
     print(f"updated index.html with {len(posts)} post(s)")
+
+    push_to_origin()
 
 
 if __name__ == "__main__":
