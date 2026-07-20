@@ -28,7 +28,7 @@ body {
 .container {
   max-width: 900px;
   width: 100%;
-  padding: 2.25rem;
+  padding: 7rem 2.25rem 2.25rem;
 }
 
 /* ---------- Header / nav ---------- */
@@ -151,7 +151,7 @@ a:hover { text-decoration: underline; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 540px) {
-  .container { padding: 3rem 1.25rem 5rem; }
+  .container { padding: 5rem 1.25rem 5rem; }
   .article-title { font-size: 1.25rem; }
   .article-page-title { font-size: 1.6rem; }
 }
